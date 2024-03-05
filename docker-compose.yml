@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  todo:
+    restart: unless-stopped
+    build: .
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: TestPasswordPleaseChange
+      JWT_SECRET: "a very secret key, please change this for production"
+      SALT_ROUNDS: 12
+    depends_on:
+      - db
+    ports:
+        - "3000:3000"
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: TestPasswordPleaseChange
+
