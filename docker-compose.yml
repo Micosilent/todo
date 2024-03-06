@@ -4,6 +4,7 @@ services:
     restart: unless-stopped
     build: .
     environment:
+      NODE_ENV: development
       MYSQL_DATABASE: todo
       MYSQL_USER: todo
       MYSQL_PASSWORD: TestPasswordPleaseChange
