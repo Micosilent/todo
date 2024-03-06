@@ -2,14 +2,20 @@ import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { AuthorizedRequest } from '../auth/auth.guard';
 import FindTaskDto from './FindTask.dto';
+import { ApiSecurity } from '@nestjs/swagger';
+import CreateTaskDto from './CreateTask.dto';
 
+@ApiSecurity('bearer')
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Post()
-  createTask(@Body('title') title: string, @Req() request: AuthorizedRequest) {
-    return this.tasksService.create(title, request.userId);
+  createTask(
+    @Body() reqBody: CreateTaskDto,
+    @Req() request: AuthorizedRequest,
+  ) {
+    return this.tasksService.create(reqBody.title, request.userId);
   }
 
   @Get()
