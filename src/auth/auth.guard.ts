@@ -10,7 +10,7 @@ import { IS_PUBLIC_KEY } from './auth.decorators';
 import { Reflector } from '@nestjs/core';
 
 export type AuthorizedRequest = Request & {
-  userId: string;
+  userId: number;
   headers: { authorization: string };
 };
 
@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       });
 
-      request.userId = payload.sub;
+      request.userId = parseInt(payload.sub, 10);
     } catch {
       throw new UnauthorizedException();
     }

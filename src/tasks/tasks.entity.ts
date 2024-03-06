@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Task {
@@ -9,9 +10,16 @@ export class Task {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ default: false })
   done: boolean;
 
+  @Exclude()
   @ManyToOne(() => User, (user) => user.tasks)
-  user: User;
+  user?: User;
+
+  // TypeORM omits the exclude decorator  when saving the entity
+  removeRelation() {
+    delete this.user;
+    return this;
+  }
 }
